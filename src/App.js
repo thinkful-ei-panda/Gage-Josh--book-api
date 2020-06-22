@@ -1,4 +1,7 @@
 import React from 'react';
+import Navbar from './navbar/Navbar'
+import Header from './Header/Header'
+import Template from './template/Books'
 
 class App extends React.Component {
   
@@ -10,7 +13,7 @@ class App extends React.Component {
   /**https://developers.google.com/books/docs/v1/reference/volumes/list?apix_params=%7B%22filter%22%3A%22ebooks%22%2C%22printType%22%3A%22ALL%22%2C%22q%22%3A%22harry%22%7D#http-request**/
   
   
-  searchBooks (searchTerms) {
+  searchBooks = (searchTerms)=> {
 
     const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerms}&maxResults=${10}`
       fetch(url)
@@ -19,16 +22,32 @@ class App extends React.Component {
         .then((res) =>
         this.setState({books: res.items}))
   }
+
+  
+
+  filterBy(obj){
+    const filterVal = {
+      filter : obj.filter ,
+      printType : obj.printType,
+    }
+    return filterVal; 
+  }
+
+  // apiCall(){
+    
+  // }
   
   
   render(){
     return (
       <main className='App'>
         <Header/>
+        <h1>eh</h1>
         <Navbar
+        filter={this.filterBy}
         submit={this.searchBooks}
         />
-        <Books/>
+        {/* <Books/> */}
     </main>
     )
   };

@@ -6,11 +6,11 @@ import SearchBar from './SearchBar';
 
         return(
             <div className="Nav-bar">
-                <Filter
-                filter={props.filter}
-                />
                 <SearchBar
                 submit={props.submit}
+                />
+                <Filter
+                filter={props.filter}
                 />
                 
             </div>
