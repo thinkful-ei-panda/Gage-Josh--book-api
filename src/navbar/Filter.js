@@ -1,6 +1,6 @@
 import React from 'react';
 
-    export default class Filter extends React.Component(props){
+    export default class Filter extends React.Component{
         
         state = {
             filter : 'full' ,
