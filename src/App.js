@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from './navbar/Navbar'
 import Header from './Header/Header'
-import Template from './template/Books'
+import TemplateHold from './template/Books'
 
 class App extends React.Component {
   
   state = {
-      books : []
+      books : [] , 
+      loading : false,
   }
 
 
