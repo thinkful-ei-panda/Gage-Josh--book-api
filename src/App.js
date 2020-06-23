@@ -8,20 +8,28 @@ class App extends React.Component {
   state = {
       books : [] , 
       loading : false,
+  }  
+
+  componentDidMount(){
+    this.searchBooks('ishmael');
   }
-
-
-  /**https://developers.google.com/books/docs/v1/reference/volumes/list?apix_params=%7B%22filter%22%3A%22ebooks%22%2C%22printType%22%3A%22ALL%22%2C%22q%22%3A%22harry%22%7D#http-request**/
-  
   
   searchBooks = (searchTerms)=> {
 
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerms}&maxResults=${10}`
-      fetch(url)
-        .then( (res)=>
-        res.json())
-        .then((res) =>
-        this.setState({books: res.items}))
+    // const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerms}&maxResults=${10}`
+        // fetch(url)
+        //   .then( (res)=>{
+        //     if(res.ok){
+        //       return res.json();
+        //     }else{
+        //       throw Error(res.message)
+        //     }
+        //     })
+        //   .then((res) =>
+        //   this.setState({books: res.items}))
+        //   .catch((error) => 
+        //   console.log(error)
+        //   );
   }
 
   
@@ -34,16 +42,30 @@ class App extends React.Component {
     return filterVal; 
   }
 
-  // apiCall(){
-    
-  // }
+  apiCall(f,s){
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${s}&fliter=${f.filter}&printType=${f.printType}&maxResults=${10}`
+    fetch(url)
+        .then( (res)=>{
+          if(res.ok){
+            return res.json();
+          }else{
+            throw Error(res.message)
+          }
+          })
+        .then((res) =>
+        this.setState({books: res.items}))
+        .catch((error) => 
+        console.log(error)
+        );
+
+
+  }
   
   
   render(){
     return (
       <main className='App'>
         <Header/>
-        <h1>eh</h1>
         <Navbar
         filter={this.filterBy}
         submit={this.searchBooks}
