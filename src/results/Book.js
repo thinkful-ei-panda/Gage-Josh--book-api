@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 
 //title = volumeInfo.title
@@ -8,7 +8,7 @@ import React from "react";
 //dis = volumeInfo.description
 
 
-    export default function Books(props) {
+    export default function Book(props) {
 
         const authors = props.volumeInfo.authors
 

@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 
 export default function Header(){
     return(
             <div>
-                <h2>Book Search</h2>
+                <h1>Google Book Search</h1>
             </div>
     )
 }

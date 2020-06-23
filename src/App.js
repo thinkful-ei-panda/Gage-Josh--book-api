@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './navbar/Navbar'
-import Header from './Header/Header'
-import TemplateHold from './template/Books'
+import Header from './header/Header'
+import Results from './results/Booklist'
 
 class App extends React.Component {
   
@@ -43,7 +43,6 @@ class App extends React.Component {
     return (
       <main className='App'>
         <Header/>
-        <h1>eh</h1>
         <Navbar
         filter={this.filterBy}
         submit={this.searchBooks}
