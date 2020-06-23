@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './navbar/Navbar'
-import Header from './Header/Header'
-import TemplateHold from './template/Books'
+import Header from './header/Header'
+import Results from './results/Booklist'
 
 class App extends React.Component {
   

@@ -22,7 +22,7 @@ import React from 'react';
                     <form
                     onSubmit={this.handleTextbox} 
                     className='submit-form'>
-                        <label for="search-box"/>
+                        <label for="search-box"/>Search:
                             <input
                             onChange={this.handleChange} 
                             value={this.state.term} 
