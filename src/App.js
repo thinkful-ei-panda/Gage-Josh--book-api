@@ -1,34 +1,79 @@
 import React from 'react';
+import Navbar from './navbar/Navbar'
+import Header from './Header/Header'
+import BookList from './results/BookList'
+
+
+/** fix so apiCall can make calls with both Search terms and filter .... gl*/
 
 class App extends React.Component {
   
   state = {
-      books : []
-  }
-
-
-  /**https://developers.google.com/books/docs/v1/reference/volumes/list?apix_params=%7B%22filter%22%3A%22ebooks%22%2C%22printType%22%3A%22ALL%22%2C%22q%22%3A%22harry%22%7D#http-request**/
+      books : [] , 
+      loading : false,
+      filter : 'full' ,
+      printType : 'all',
+      searchTerm : '',
+  }  
   
   
-  searchBooks (searchTerms) {
 
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerms}&maxResults=${10}`
-      fetch(url)
-        .then( (res)=>
-        res.json())
+  handleSubmitAndCall = (e) => {
+    e.preventDefault();
+    console.log(this.state.searchTerm)
+    const search = this.state.searchTerm;
+    this.setState({loading : true})
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&fliter=${this.state.filter}&printType=${this.state.printType}&maxResults=10`
+    if(this.state.searchTerm.length===0){
+      this.setState({books : 'please enter a search term'})
+    }else{
+      
+    fetch(url)
+        .then( (res)=>{
+          if(res.ok){
+            return res.json();
+          }else{
+            throw Error(res.message)
+          }
+          })
         .then((res) =>
-        this.setState({books: res.items}))
+        this.setState({books: res.items,
+                       searchTerm : '',
+                       loading : false, 
+        }))
+        .catch((error) => 
+        console.log(error),
+        this.setState({loading : false})
+        );
   }
+}
+
+
+handleFilterChange =(e)=>{
+  e.preventDefault();
+  const newState = {};
+  newState[e.target.name] = e.target.value;
+  this.setState(newState);
+  
+}
+
+
   
   
   render(){
+      console.log(this.state.books)
     return (
+      
       <main className='App'>
         <Header/>
         <Navbar
-        submit={this.searchBooks}
+        term={this.state.searchTerm}
+        handleFilterChange={this.handleFilterChange}
+        handleSubmitAndCall={this.handleSubmitAndCall}
         />
-        <Books/>
+        <BookList
+        books={this.state.books}
+        />
     </main>
     )
   };
