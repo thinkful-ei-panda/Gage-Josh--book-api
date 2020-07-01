@@ -1,49 +1,33 @@
 import React from 'react';
 import Navbar from './navbar/Navbar'
-import Header from './header/Header'
-import Results from './results/Booklist'
+import Header from './Header/Header'
+import BookList from './results/BookList'
+
+
+/** fix so apiCall can make calls with both Search terms and filter .... gl*/
 
 class App extends React.Component {
   
   state = {
       books : [] , 
       loading : false,
+      filter : 'full' ,
+      printType : 'all',
+      searchTerm : '',
   }  
-
-  componentDidMount(){
-    this.searchBooks('ishmael');
-  }
   
-  searchBooks = (searchTerms)=> {
-
-    // const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerms}&maxResults=${10}`
-        // fetch(url)
-        //   .then( (res)=>{
-        //     if(res.ok){
-        //       return res.json();
-        //     }else{
-        //       throw Error(res.message)
-        //     }
-        //     })
-        //   .then((res) =>
-        //   this.setState({books: res.items}))
-        //   .catch((error) => 
-        //   console.log(error)
-        //   );
-  }
-
   
 
-  filterBy(obj){
-    const filterVal = {
-      filter : obj.filter ,
-      printType : obj.printType,
-    }
-    return filterVal; 
-  }
-
-  apiCall(f,s){
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${s}&fliter=${f.filter}&printType=${f.printType}&maxResults=${10}`
+  handleSubmitAndCall = (e) => {
+    e.preventDefault();
+    console.log(this.state.searchTerm)
+    const search = this.state.searchTerm;
+    this.setState({loading : true})
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${search}&fliter=${this.state.filter}&printType=${this.state.printType}&maxResults=10`
+    if(this.state.searchTerm.length===0){
+      this.setState({books : 'please enter a search term'})
+    }else{
+      
     fetch(url)
         .then( (res)=>{
           if(res.ok){
@@ -53,24 +37,43 @@ class App extends React.Component {
           }
           })
         .then((res) =>
-        this.setState({books: res.items}))
+        this.setState({books: res.items,
+                       searchTerm : '',
+                       loading : false, 
+        }))
         .catch((error) => 
-        console.log(error)
+        console.log(error),
+        this.setState({loading : false})
         );
-
-
   }
+}
+
+
+handleFilterChange =(e)=>{
+  e.preventDefault();
+  const newState = {};
+  newState[e.target.name] = e.target.value;
+  this.setState(newState);
+  
+}
+
+
   
   
   render(){
+      console.log(this.state.books)
     return (
+      
       <main className='App'>
         <Header/>
         <Navbar
-        filter={this.filterBy}
-        submit={this.searchBooks}
+        term={this.state.searchTerm}
+        handleFilterChange={this.handleFilterChange}
+        handleSubmitAndCall={this.handleSubmitAndCall}
         />
-        {/* <Books/> */}
+        <BookList
+        books={this.state.books}
+        />
     </main>
     )
   };

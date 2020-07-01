@@ -1,41 +1,34 @@
 import React from 'react';
 
 
-//title = volumeInfo.title
-//author = volumeInfo.map(a => a)
-//price = saleInfo.retailPrice.amount
-//img = volumeInfo.imageLinks.thumbnail
-//dis = volumeInfo.description
+// img={b.volumeInfo.imageLinks.smallThumbnail}
+// title={b.volumeInfo.title}
+// author={b.volumeInfo.author}
+// price={priceInfo}
+// dis={b.volumeInfo.description}
 
 
     export default function Book(props) {
 
-        const authors = props.volumeInfo.authors
+        const authors = props.author
 
-       const authorList = authors.length === 1 ? authors : authors.map(a => 
-                    `<li>${a}</li>`
-        ) 
+       const authorList =  authors.length === 1 ? <p>{authors[0]}</p>
+       : <ul>
+            {authors.map(a => 
+                    <li>{a}</li>
+        )} </ul> ;
 
-
+                
 
        return(
-         <div>
-                      {props.map(book =>
-
-                    <div>
-                        <p>{book.volumeInfo.title}</p>
-                      <div>{authors.length === 1 ?  <p>{authorList}</p> : <ul>{authorList}</ul> }</div>
-                      <p>{}</p>
-                    </div>
-                
-                    )}
-            </div>  
+         <div key={props.key}>
+             <img src={props.img} alt={props.title} />
+              <h5>{props.title}</h5>
+              {authorList}
+              <p>{props.price.toString()}</p>
+              <p>{props.dis}</p>
+        </div>  
        ) 
-        
-
-        
-            
-        
-    };
+};
 
     
